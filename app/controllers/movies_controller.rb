@@ -5,7 +5,9 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.all_ratings
     @ratings_to_show = params[:ratings] ? params[:ratings].keys : @all_ratings
-    @movies = Movie.where(rating: @ratings_to_show)
+    @sort_by = params[:sort_by] || session[:sort_by]
+    session[:sort_by] = @sort_by
+    @movies = Movie.where(rating: @ratings_to_show).order(@sort_by)
   end
 
   # GET /movies/1 or /movies/1.json
